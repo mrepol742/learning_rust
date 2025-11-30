@@ -1,54 +1,19 @@
-// fn main() {
-//     // let mut data = vec![5,6,9,4,3];
-//     // data.sort();
-//     // let data = data;
-
-//     let data = {
-//         let mut data = vec![5,6,9,4,3];
-//         data.sort();
-//         data
-//     };
-
-// }
-#[derive(Debug, Clone)]
-
-pub struct finalized_config<T>(T);
-
-impl<T> Copy for finalized_config<T> where T: Copy {}
-
-impl<T> std::ops::Deref for finalized_config<T> {
-    type Target = T;
-    fn deref(&self) -> &T {
-        &self.0
-    }
-}
-
-#[derive(Debug)]
-struct Config {
-    a: usize,
-    b: String,
-}
-
-impl Config {
-    fn new() -> Self {
-        Self {
-            a: 0,
-            b: String::from("Hello"),
-        }
-    }
-
-    fn build(self) -> finalized_config<Config> {
-        finalized_config(self)
-    }
-}
-
 fn main() {
+    // let s1 = String::from("Hello");
+    // let s2 = "world";
 
-    let mut my_configuration = Config::new();
-    my_configuration.a = 6;
+    // let s3 = s1 + s2;
+    // println!("{}", s3);
 
-    let finalized = my_configuration.build();
+    // let s1 = String::from("Hello");
+    // let s2 = String::from("world");
 
-    let mut finalized_copy = finalized;
-    // finalized_copy.a = 66;
+    // let s3 = s1 + &s2;
+    // println!("{} {}", s3, s2);
+
+    let s1 = String::from("Hello");
+    let s2 = "world";
+    let s3 = String::from("From Rust");
+    let s4 = s1 + &s2 + &s3;
+    println!("{} {} {}", s4, s2, s3);
 }
