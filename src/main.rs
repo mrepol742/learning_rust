@@ -1,18 +1,41 @@
+#[derive(Default)]
+
+struct Student {
+    name_std: String,
+    age: u8,
+    sex: char,
+    country: String,
+    salary: u32,
+    nationality: String,
+}
+
+impl Student {
+    fn some_fn_1(&self) -> String {
+        // todo!()
+        "".to_string()
+    }
+
+    fn some_fn_2(&self) -> u8 {
+        todo!()
+    }
+}
+
+trait GeneralInfo {
+    fn info(&self) -> (&str, u8, char);
+    fn country_info(&self) -> &str;
+}
+
+impl GeneralInfo for Student {
+    fn info(&self) -> (&str, u8, char) {
+        todo!();
+    }
+
+    fn country_info(&self) -> &str {
+        todo!();
+    }
+}
+
 fn main() {
-    let str = r"The main said _Hello World \n \t ' ";
-    println!("{}", str);
-
-    let json_str = "{
-        \"name\": \"Melvin\"
-        \"age\": 22,
-        \"sex\": Male
-        }";
-
-    let json_str = r#"{
-        "name": "Melvin"
-        "age": 22,
-        "sex": Male
-        }"#;
-
-    let str = r###"Hello"## World!"###;
+    let student_1 = Student::default();
+    student_1.some_fn_1();
 }
