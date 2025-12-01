@@ -1,19 +1,51 @@
-fn main() {
-    // let s1 = String::from("Hello");
-    // let s2 = "world";
+// struct A {
+//     f1: u32,
+//     f2: u32,
+//     f3: u32,
+// }
 
-    // let s3 = s1 + s2;
-    // println!("{}", s3);
+// fn fn1(a: &mut A) -> &u32 {
+//     &a.f2
+// }
 
-    // let s1 = String::from("Hello");
-    // let s2 = String::from("world");
+// fn fn2(a: &mut A) -> u32 {
+//     a.f1 + a.f3
+// }
 
-    // let s3 = s1 + &s2;
-    // println!("{} {}", s3, s2);
+// fn fn3(a: &mut A) {
+//     let x = fn1(a);
+//     let y = fn2(a);
+//     println!("{}", x)
+// }
+//
 
-    let s1 = String::from("Hello");
-    let s2 = "world";
-    let s3 = String::from("From Rust");
-    let s4 = s1 + &s2 + &s3;
-    println!("{} {} {}", s4, s2, s3);
+struct A {
+    b: B,
+    c: C,
 }
+
+struct B {
+    f2: u32
+}
+
+struct C {
+    f1: u32,
+    f3: u32,
+}
+
+fn fn1(b: &mut B) -> &u32 {
+    &b.f2
+}
+
+fn fn2(c: &mut C) -> u32 {
+    c.f1 + c.f3
+}
+
+fn fn3(a: &mut A) {
+    let x = fn1(&mut a.b);
+    let y = fn2(&mut a.c);
+    println!("{}", x)
+}
+
+
+fn main() {}
