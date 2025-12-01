@@ -1,41 +1,117 @@
-#[derive(Default)]
+#[derive(Debug, Default, Clone)]
 
-struct Student {
-    name_std: String,
-    age: u8,
-    sex: char,
+struct Customer {
+    name: String,
+    username: String,
+    membership: MembershipType,
+    gender: char,
     country: String,
-    salary: u32,
-    nationality: String,
+    age: u8,
 }
 
-impl Student {
-    fn some_fn_1(&self) -> String {
-        // todo!()
-        "".to_string()
-    }
+#[derive(Debug, Clone)]
+enum MembershipType {
+    new,
+    casual,
+    loyal,
+}
 
-    fn some_fn_2(&self) -> u8 {
-        todo!()
+impl Default for MembershipType {
+    fn default() -> Self {
+        MembershipType::new
     }
 }
 
-trait GeneralInfo {
-    fn info(&self) -> (&str, u8, char);
-    fn country_info(&self) -> &str;
+impl Customer {
+    fn new(name: String) -> CustomerBuilder {
+        CustomerBuilder {
+            name: name,
+            username: None,
+            membership: None,
+            gender: None,
+            country: None,
+            age: None,
+        }
+    }
+    // fn new(name: String) -> Self {
+    //     Self {
+    //         name: name,
+    //         ..Default::default()
+    //     }
+    // }
+
+    // fn new2(name: String, username: String) -> Self {
+    //     Self {
+    //         name: name,
+    //         username: username,
+    //         ..Default::default()
+    //     }
+    // }
+
+    // fn new3(name: String, username: String, membership: MembershipType) -> Self {
+    //     Self {
+    //         name: name,
+    //         username: username,
+    //         membership: membership,
+    //         ..Default::default()
+    //     }
+    // }
 }
 
-impl GeneralInfo for Student {
-    fn info(&self) -> (&str, u8, char) {
-        todo!();
+struct CustomerBuilder {
+    name: String,
+    username: Option<String>,
+    membership: Option<MembershipType>,
+    gender: Option<char>,
+    country: Option<String>,
+    age: Option<u8>,
+}
+
+impl CustomerBuilder {
+    fn username(&mut self, username: String) -> &mut Self {
+        self.username = Some(username);
+        self
     }
 
-    fn country_info(&self) -> &str {
-        todo!();
+    fn membership(&mut self, membership: MembershipType) -> &mut Self {
+        self.membership = Some(membership);
+        self
+    }
+
+    fn gender(&mut self, gender: char) -> &mut Self {
+        self.gender = Some(gender);
+        self
+    }
+
+    fn country(&mut self, country: String) -> &mut Self {
+        self.country = Some(country);
+        self
+    }
+
+    fn age(&mut self, age: u8) -> &mut Self {
+        self.age = Some(age);
+        self
+    }
+
+    fn build(&mut self) -> Customer {
+        Customer {
+            name: self.name.clone(),
+            username: self.username.clone().unwrap_or_default(),
+            membership: self.membership.clone().unwrap_or_default(),
+            gender: self.gender.clone().unwrap_or_default(),
+            country: self.country.clone().unwrap_or_default(),
+            age: self.age.clone().unwrap_or_default(),
+        }
     }
 }
 
 fn main() {
-    let student_1 = Student::default();
-    student_1.some_fn_1();
+    let new_user = Customer::new("Melvin".to_string()).build();
+    let new_user_with_login = Customer::new("Melvin".to_string())
+        .username("mrepol742".to_string())
+        .build();
+    let new_user_with_membership = Customer::new("Melvin".to_string())
+        .username("mrepol742".to_string())
+        .membership(MembershipType::loyal)
+        .build();
 }
