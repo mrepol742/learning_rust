@@ -1,27 +1,30 @@
+use std::sync::mpsc;
 use std::thread;
-use std::time::Duration;
 
 fn main() {
-    // let mut thread_vec = vec![];
-    // for i in 0..10 {
-    //     thread_vec.push(thread::spawn(move || {
-    //         println!("Thread number {}", i);
-    //     }))
-    // }
-
-    // for i in thread_vec {
-    //    i.join();
-    // }
-
-    let v = vec![1, 2, 3];
-    let x = 5;
-    let handle = thread::spawn(move || {
-        println!("Here's a vector: {:?}", v);
-        println!("Here's a vector: {:?}", x);
+    let (tx, rx) = mpsc::channel();
+    // let rx1 = rx;
+    let t = thread::spawn(move || {
+        let val = String::from("melvin");
+        println!("Value sending from the thread");
+        tx.send(val).unwrap();
+        // println!("This may execute after the statement in the main");
+        // println!("Val is {:?}", val);
     });
 
-    drop(x);
-    println!("The variable x is still alive {}", x);
-    println!("The variable x is still alive {}", v);
-    handle.join();
+    // let received = rx.recv().unwrap();
+    // println!("Received: {:?}", received);
+
+    t.join();
+
+    let mut received_status = false;
+    while received_status != true {
+        match rx.try_recv() {
+            Ok(received_value) => {
+                println!("received value {:?}", received_value);
+                received_status = true;
+            }
+            Err(_) => println!("I am doing some other stuff"),
+        }
+    }
 }
