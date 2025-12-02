@@ -2,21 +2,26 @@ use std::thread;
 use std::time::Duration;
 
 fn main() {
-    println!("This will be printed");
+    // let mut thread_vec = vec![];
+    // for i in 0..10 {
+    //     thread_vec.push(thread::spawn(move || {
+    //         println!("Thread number {}", i);
+    //     }))
+    // }
 
-    let t = thread::spawn(|| {
-        println!("Hello 1");
-        println!("Hello 2");
-        println!("Hello 3");
-        println!("Hello 4");
-        println!("Hello 5");
-        println!("Hello 6");
+    // for i in thread_vec {
+    //    i.join();
+    // }
+
+    let v = vec![1, 2, 3];
+    let x = 5;
+    let handle = thread::spawn(move || {
+        println!("Here's a vector: {:?}", v);
+        println!("Here's a vector: {:?}", x);
     });
 
-    thread::sleep(Duration::from_millis(1));
-    println!("Hello 4 main");
-    println!("Hello 5 main");
-    println!("Hello 6 main");
-
-    t.join();
+    drop(x);
+    println!("The variable x is still alive {}", x);
+    println!("The variable x is still alive {}", v);
+    handle.join();
 }
