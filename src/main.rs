@@ -1,117 +1,22 @@
-#[derive(Debug, Default, Clone)]
-
-struct Customer {
-    name: String,
-    username: String,
-    membership: MembershipType,
-    gender: char,
-    country: String,
-    age: u8,
-}
-
-#[derive(Debug, Clone)]
-enum MembershipType {
-    new,
-    casual,
-    loyal,
-}
-
-impl Default for MembershipType {
-    fn default() -> Self {
-        MembershipType::new
-    }
-}
-
-impl Customer {
-    fn new(name: String) -> CustomerBuilder {
-        CustomerBuilder {
-            name: name,
-            username: None,
-            membership: None,
-            gender: None,
-            country: None,
-            age: None,
-        }
-    }
-    // fn new(name: String) -> Self {
-    //     Self {
-    //         name: name,
-    //         ..Default::default()
-    //     }
-    // }
-
-    // fn new2(name: String, username: String) -> Self {
-    //     Self {
-    //         name: name,
-    //         username: username,
-    //         ..Default::default()
-    //     }
-    // }
-
-    // fn new3(name: String, username: String, membership: MembershipType) -> Self {
-    //     Self {
-    //         name: name,
-    //         username: username,
-    //         membership: membership,
-    //         ..Default::default()
-    //     }
-    // }
-}
-
-struct CustomerBuilder {
-    name: String,
-    username: Option<String>,
-    membership: Option<MembershipType>,
-    gender: Option<char>,
-    country: Option<String>,
-    age: Option<u8>,
-}
-
-impl CustomerBuilder {
-    fn username(&mut self, username: String) -> &mut Self {
-        self.username = Some(username);
-        self
-    }
-
-    fn membership(&mut self, membership: MembershipType) -> &mut Self {
-        self.membership = Some(membership);
-        self
-    }
-
-    fn gender(&mut self, gender: char) -> &mut Self {
-        self.gender = Some(gender);
-        self
-    }
-
-    fn country(&mut self, country: String) -> &mut Self {
-        self.country = Some(country);
-        self
-    }
-
-    fn age(&mut self, age: u8) -> &mut Self {
-        self.age = Some(age);
-        self
-    }
-
-    fn build(&mut self) -> Customer {
-        Customer {
-            name: self.name.clone(),
-            username: self.username.clone().unwrap_or_default(),
-            membership: self.membership.clone().unwrap_or_default(),
-            gender: self.gender.clone().unwrap_or_default(),
-            country: self.country.clone().unwrap_or_default(),
-            age: self.age.clone().unwrap_or_default(),
-        }
-    }
-}
+use std::thread;
+use std::time::Duration;
 
 fn main() {
-    let new_user = Customer::new("Melvin".to_string()).build();
-    let new_user_with_login = Customer::new("Melvin".to_string())
-        .username("mrepol742".to_string())
-        .build();
-    let new_user_with_membership = Customer::new("Melvin".to_string())
-        .username("mrepol742".to_string())
-        .membership(MembershipType::loyal)
-        .build();
+    println!("This will be printed");
+
+    let t = thread::spawn(|| {
+        println!("Hello 1");
+        println!("Hello 2");
+        println!("Hello 3");
+        println!("Hello 4");
+        println!("Hello 5");
+        println!("Hello 6");
+    });
+
+    thread::sleep(Duration::from_millis(1));
+    println!("Hello 4 main");
+    println!("Hello 5 main");
+    println!("Hello 6 main");
+
+    t.join();
 }
