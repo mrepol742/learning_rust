@@ -1,22 +1,28 @@
 use std::thread;
+use std::time::Duration;
 
 fn main() {
-    let mut vec = vec![1, 2, 3, 4];
-    let mut x = 0;
+    let job_1 = thread::spawn(|| {
+        println!("Job 1 is starting.");
+        println!("waiting for Job 2 to complete");
+        // thread::park_timeout(Duration::from_secs(2));
+        // thread::sleep(Duration::from_secs(2));
+        thread::yield_now();
 
-    // thread::scope(|some_scope| {
-        thread::spawn(|| {
-            println!("I am the first thread in the scope");
-            println!("{:?}", vec);
-        });
+        println!("Job 1 is resuming.");
+        println!("Job 1 is completed.");
+    });
 
-        thread::spawn(|| {
-            println!("I am the second thread in the scope");
-            x += 45;
-        });
-    // });
+    let job_2 = thread::spawn(|| {
+        println!("Job 2 is starting.");
+        println!("Job 2 is finished");
+    });
 
-    println!("The threads are now complete");
-    vec.push(5);
-    println!("x: {:?} and a: {:?}", x, vec);
+    job_2.join().unwrap();
+
+    println!("Job 2 is now complete");
+    println!("Job 1 will now resume");
+
+    job_1.thread().unpark();
+    job_1.join().unwrap();
 }
